@@ -8,7 +8,7 @@
 #define __REL_H__
 
 //#define DEBUG
-#define START  0x80500000
+#define START  0x803702A8
 
 #include "../loader/idaloader.h"
 
