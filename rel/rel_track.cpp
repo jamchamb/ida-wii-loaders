@@ -125,7 +125,7 @@ bool rel_track::validate_header() const
 
   // Check section boundary
   if (!verify_section(m_section_offset, m_num_sections*sizeof(section_entry)) )
-    return err_msg("REL: Section has overlapping or out of bounds offset (%u entries)", m_num_sections);
+    return err_msg("REL: Section info table has overlapping or out of bounds offset (offset 0x%02x, %u entries)", m_section_offset, m_num_sections);
 
   // Check version
   if (m_version <= 0 || m_version > 3)
@@ -137,7 +137,22 @@ bool rel_track::validate_header() const
 bool rel_track::verify_section(uint32_t offset, uint32_t size) const
 {
   offset = SECTION_OFF(offset);
-  return sizeof(relhdr) <= offset && (offset + size) <= m_max_filesize;
+
+  // smallest header can be 0x40 bytes
+  size_t header_sz;
+  switch (m_version) {
+  case 0:
+  case 1:
+	  header_sz = 0x40;
+  case 2:
+	  header_sz = 0x48;
+	  break;
+  case 3:
+  default:
+	  header_sz = 0x4c;
+  }
+
+  return header_sz <= offset && (offset + size) <= m_max_filesize;
 }
 
 bool rel_track::is_good() const

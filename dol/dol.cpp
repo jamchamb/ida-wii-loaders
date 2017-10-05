@@ -129,6 +129,7 @@ void idaapi load_file(linput_t *fp, ushort /*neflag*/, const char * /*fileformat
   if (read_header(fp, &dhdr)==0) qexit(1);
   
   // every journey has a beginning
+  msg("Setting entrypoint 0x%08x\n", dhdr.entrypoint);
   inf.beginEA = inf.startIP = dhdr.entrypoint;
 
   // map selector 1 to 0
@@ -142,7 +143,7 @@ void idaapi load_file(linput_t *fp, ushort /*neflag*/, const char * /*fileformat
     if (dhdr.addressText[i] == 0) continue;
     
     // create a name according to segmenttype and number
-    sprintf(buf, NAME_CODE "%u", snum);
+    qsnprintf(buf, 50, NAME_CODE "%u", snum);
     
     // add the code segment
     if (!add_segm(1, dhdr.addressText[i], dhdr.addressText[i]+dhdr.sizeText[i], buf, CLASS_CODE)) qexit(1);
@@ -162,7 +163,7 @@ void idaapi load_file(linput_t *fp, ushort /*neflag*/, const char * /*fileformat
     if (dhdr.addressData[i] == 0) continue;
 
     // create a name according to segmenttype and number
-    sprintf(buf, NAME_DATA "%u", snum);
+    qsnprintf(buf, 50, NAME_DATA "%u", snum);
 
     // add the data segment
     if (!add_segm(1, dhdr.addressData[i], dhdr.addressData[i]+dhdr.sizeData[i], buf, CLASS_DATA)) qexit(1);
@@ -176,6 +177,8 @@ void idaapi load_file(linput_t *fp, ushort /*neflag*/, const char * /*fileformat
 
   // is there a BSS defined?
   if (dhdr.addressBSS != NULL) {
+	msg("Setting BSS at 0x%08x (0x%08x bytes)\n", dhdr.addressBSS, dhdr.sizeBSS);
+
     // then add it
     if(!add_segm(1, dhdr.addressBSS, dhdr.addressBSS+dhdr.sizeBSS, NAME_BSS, CLASS_BSS)) qexit(1);
 
