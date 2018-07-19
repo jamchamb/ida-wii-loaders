@@ -2,6 +2,7 @@
 #define __REL_TRACK_H__
 
 #include "rel.h"
+#include <cstdio>
 #include <vector>
 #include <map>
 

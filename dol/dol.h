@@ -7,6 +7,8 @@
 #ifndef __DOL_H__
 #define __DOL_H__
 
+#include <cstdio>
+
 /* Header Size = 100h bytes 
 
     0000-001B  Text[0..6] sections File Positions

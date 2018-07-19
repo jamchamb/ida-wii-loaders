@@ -9,7 +9,7 @@
 #include <bytes.hpp>
 #include <offset.hpp>
 #include <segment.hpp>
-#include <srarea.hpp>
+#include <segregs.hpp>
 #include <fixup.hpp>
 #include <entry.hpp>
 #include <auto.hpp>
