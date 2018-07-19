@@ -12,6 +12,7 @@
 
 #include "../loader/idaloader.h"
 
+#include <cstdio>
 #include <cstdint>
 #include <string>
 
